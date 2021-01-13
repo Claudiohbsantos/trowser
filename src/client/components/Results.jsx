@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import ResultEntry from './ResultEntry'
 
 const Results = ({ query, searcher }) => {
-  const [showType, setShowType] = useState(true)
-  const [showParents, setShowParents] = useState(true)
+  const [showType, setShowType] = useState(false)
+  const [showParents, setShowParents] = useState(false)
 
   const results = searcher(query);
 

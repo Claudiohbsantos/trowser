@@ -12,7 +12,6 @@ const unsafeJoinComponents = (arr, separator) => {
 
 const commaSeparator = <span className={styles.punctuation}>, </span>;
 const punct = (str) => <span className={styles.punctuation}>{str}</span>;
-// const typeWrapper = components => <span className={styles.types}></span>
 
 const Parents = (show) => (parents) => {
   if (!show) return null;
@@ -40,7 +39,9 @@ const Parameter = (showType) => (p) => (
 
 const Parameters = (showType) => (parameters) => (
   <span className={styles.parameters}>
-    ( {unsafeJoinComponents(parameters?.map(Parameter(showType)), commaSeparator)})
+    {punct('(')}
+    {unsafeJoinComponents(parameters?.map(Parameter(showType)), commaSeparator)}
+    {punct(')')}
   </span>
 );
 
@@ -54,14 +55,25 @@ const Return = (show) => (returnType) => {
   );
 };
 
-const ResultEntry = ({ entry , showType, showParents}) => {
-  const parts = formatSignatureParts(entry);
+const transform = (transformers, parts) => parts.map((part, i) => transformers[i](part));
+const opacityFromRelevance = (score) => (score ? 1 - score : 1);
+const grayscaleFromRelevance = (score) => (score ? score * 100 : 0);
 
+const ResultEntry = ({ entry, showType, showParents }) => {
+  const parts = formatSignatureParts(entry.item);
   const transformers = [Parents(showParents), Name, Parameters(showType), Return(showType)];
-
-  const transform = (transformers, parts) => parts.map((part, i) => transformers[i](part));
-
-  return <div className={styles.entry}>{transform(transformers, parts)}</div>;
+  // todo: show overloads count
+  return (
+    <div
+      className={styles.entry}
+      style={{
+        opacity: opacityFromRelevance(entry.score),
+        filter: `grayscale(${grayscaleFromRelevance(entry.score)})`,
+      }}
+    >
+      {transform(transformers, parts)}
+    </div>
+  );
 };
 
 export default ResultEntry;
