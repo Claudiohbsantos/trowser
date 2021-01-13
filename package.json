@@ -26,6 +26,7 @@
     "@babel/preset-env": "^7.12.11",
     "@babel/preset-react": "^7.12.10",
     "babel": "^6.23.0",
+    "fuse.js": "^6.4.6",
     "parcel": "^2.0.0-nightly.527",
     "postcss": "^8.2.4",
     "postcss-modules": "^4.0.0",

@@ -1,5 +1,14 @@
 @import '../colors.scss';
 
-.happy {
-  color: $main;
+:global(#app-container) {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+}
+
+.title {
+  font-family: 'Montserrat', sans-serif;
+  color: $title;
 }
