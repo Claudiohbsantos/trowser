@@ -85,7 +85,7 @@ export default (collection) => {
     if (!query) return collapseOverloads(collection.map((item) => ({ item: item })));
 
     const fuseQuery = buildFuseQuery(query);
-
+    
     return collapseOverloads(fuse.search(fuseQuery));
   };
 };

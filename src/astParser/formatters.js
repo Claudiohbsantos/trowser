@@ -34,6 +34,21 @@ function formatType(type) {
     }
   }
 }
+// parts = [parents, name, parameters, return]
+export function formatSignatureParts(entry) {
+  const item = entry.item;
+  return [
+    item.parents,
+    item.name,
+    item.parameters.map((p) => ({
+      isRest: p.isRest,
+      name: p.name,
+      isOptional: p.isOptional,
+      type: formatType(p.type),
+    })),
+    formatType(item.return),
+  ];
+}
 
 export function formatTypedSignature(entry) {
   const item = entry.item;

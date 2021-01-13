@@ -1,0 +1,25 @@
+@import '../colors.scss';
+
+.parents {
+  color: $green;
+}
+
+.name {
+  color: $blue;
+}
+
+.parameterName {
+  color: $red;
+}
+
+.parameterType {
+  color: $yellow;
+}
+
+.punctuation {
+  color: $base0;
+}
+
+.returnType {
+  color: $violet;
+}

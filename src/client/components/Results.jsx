@@ -5,7 +5,7 @@ const Results = ({ query, searcher }) => {
   const results = searcher(query);
 
   return (
-    <div className="container">
+    <div>
       {results.map((entry) => ( <ResultEntry entry={entry} />))}
     </div>
   );
