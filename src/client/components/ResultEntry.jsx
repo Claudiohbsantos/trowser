@@ -10,49 +10,58 @@ const unsafeJoinComponents = (arr, separator) => {
   return arr;
 };
 
-const Parents = (parents) =>
-  parents?.map((p) => (
-    <span>
-      <span className={styles.parents}>{p}</span>
-      <span className={styles.punctuation}>.</span>
-    </span>
-  )) ?? null;
+const commaSeparator = <span className={styles.punctuation}>, </span>;
+const punct = (str) => <span className={styles.punctuation}>{str}</span>;
+// const typeWrapper = components => <span className={styles.types}></span>
+
+const Parents = (show) => (parents) => {
+  if (!show) return null;
+  return (
+    parents?.map((p) => (
+      <span>
+        <span className={styles.parents}>{p}</span>
+        {punct('.')}
+      </span>
+    )) ?? null
+  );
+};
 
 const Name = (name) => <span className={styles.name}>{name}</span>;
 
-const commaSeparator = <span className={styles.punctuation}>, </span>;
-
-const Parameter = (p) => (
+const Parameter = (showType) => (p) => (
   <span className={styles.parameter}>
-    {p.isRest ? <span className={styles.punctuation}>...</span> : null}
+    {p.isRest ? punct('...') : null}
     <span className={styles.parameterName}>{p.name}</span>
-    {p.isOptional ? <span className={styles.punctuation}>?</span> : null}
-    <span className={styles.punctuation}>:</span>
-    <span className={styles.parameterType}> {p.type} </span>
+    {p.isOptional ? punct('?') : null}
+    {showType ? punct(':') : null}
+    {showType ? <span className={styles.parameterType}> {p.type} </span> : null}
   </span>
 );
 
-const Parameters = (parameters) => (
+const Parameters = (showType) => (parameters) => (
   <span className={styles.parameters}>
-    ( {unsafeJoinComponents(parameters?.map(Parameter), commaSeparator)})
+    ( {unsafeJoinComponents(parameters?.map(Parameter(showType)), commaSeparator)})
   </span>
 );
 
-const Return = (returnType) => (
-  <span>
-    <span className={styles.punctuation}> => </span>
-    <span className={styles.returnType}> {returnType}</span>
-  </span>
-);
+const Return = (show) => (returnType) => {
+  if (!show) return null;
+  return (
+    <span>
+      <span className={styles.punctuation}> => </span>
+      <span className={styles.returnType}> {returnType}</span>
+    </span>
+  );
+};
 
-const ResultEntry = ({ entry }) => {
+const ResultEntry = ({ entry , showType, showParents}) => {
   const parts = formatSignatureParts(entry);
-  const transformers = [Parents, Name, Parameters, Return];
+
+  const transformers = [Parents(showParents), Name, Parameters(showType), Return(showType)];
+
   const transform = (transformers, parts) => parts.map((part, i) => transformers[i](part));
 
   return <div className={styles.entry}>{transform(transformers, parts)}</div>;
-  // <div>{formatSignature(entry)}</div>
-  // <div className="container">{formatTypedSignature(entry)}</div>
 };
 
 export default ResultEntry;
