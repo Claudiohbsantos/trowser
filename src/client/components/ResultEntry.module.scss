@@ -1,5 +1,11 @@
 @import '../colors.scss';
 
+.parentsWrapper {
+  display: inline-block;
+  position:absolute;
+  transform: translateX(-100%)
+}
+
 .parents {
   color: $green;
 }

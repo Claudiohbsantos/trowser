@@ -3,6 +3,15 @@
 :global(#searchbar) {
   background: $base3;
   width: 80%;
-  height: 40px;
+  // height: 40px;
   margin: 50px;
+  font-size: 1.2em;
+  padding: 15px 25px;
+  color: $darkFont;
+  border-radius: 40px;
+  border:none;
+}
+
+:global(#searchbar:focus) {
+  outline: none;
 }

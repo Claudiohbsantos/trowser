@@ -14,14 +14,16 @@ const commaSeparator = <span className={styles.punctuation}>, </span>;
 const punct = (str) => <span className={styles.punctuation}>{str}</span>;
 
 const Parents = (show) => (parents) => {
-  if (!show) return null;
+  if (!show || !parents) return null;
   return (
-    parents?.map((p) => (
-      <span>
-        <span className={styles.parents}>{p}</span>
-        {punct('.')}
-      </span>
-    )) ?? null
+    <span className={styles.parentsWrapper}>
+      {parents?.map((p) => (
+        <span>
+          <span className={styles.parents}>{p}</span>
+          {punct('.')}
+        </span>
+      ))}
+    </span>
   );
 };
 
@@ -68,7 +70,7 @@ const ResultEntry = ({ entry, showType, showParents }) => {
       className={styles.entry}
       style={{
         opacity: opacityFromRelevance(entry.score),
-        filter: `grayscale(${grayscaleFromRelevance(entry.score)})`,
+        // filter: `grayscale(${grayscaleFromRelevance(entry.score)})`,
       }}
     >
       {transform(transformers, parts)}
