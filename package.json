@@ -1,0 +1,35 @@
+{
+  "name": "trowser",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel ./src/client/index.html",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@babel/core": "^7.12.10",
+    "eslint": "^7.17.0",
+    "eslint-config-airbnb": "^18.2.1",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-prettier": "^3.3.1",
+    "eslint-plugin-react": "^7.22.0",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "prettier": "^2.2.1",
+    "sass": "^1.32.4"
+  },
+  "dependencies": {
+    "@babel/preset-env": "^7.12.11",
+    "@babel/preset-react": "^7.12.10",
+    "babel": "^6.23.0",
+    "parcel": "^2.0.0-nightly.527",
+    "postcss": "^8.2.4",
+    "postcss-modules": "^4.0.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
