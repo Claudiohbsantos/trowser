@@ -7,13 +7,19 @@ import MethodSignature from './MethodSignature';
 // const grayscaleFromRelevance = (score) => (score ? score * 100 : 0);
 
 const ResultEntry = (props) => {
+  const [expanded, setExpanded] = useState('')
   const [showExpandedCard, setShowExpandedCard] = useState(false);
+
+  const onClickHandler = () => {
+    setExpanded(expanded ? '' : styles.expanded)
+    setShowExpandedCard(!showExpandedCard);
+  };
 
   return (
     <div>
       <div
-        className={styles.entry}
-        onClick={() => setShowExpandedCard(!showExpandedCard)}
+        className={`${styles.entry} ${expanded}`}
+        onClick={onClickHandler}
         // style={
         // {
         // opacity: opacityFromRelevance(entry.score),

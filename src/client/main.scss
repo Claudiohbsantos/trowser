@@ -6,7 +6,7 @@ html, .dark  { @include rebase($base03,$base02,$base01,$base00,$base0,$base1,$ba
 html * {
     // color-profile: sRGB;
     // rendering-intent: auto;
-    font-family: 'Fira Code', monospace;
+    font-family: $codeFont
 }
 
 html {

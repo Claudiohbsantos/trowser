@@ -24,7 +24,9 @@ $returnType: $violet;
 $darkFont: $base02;
 $lightFont: $base1;
 
-$textFont: 'Montserrat', sans-serif;
+$textFont: 'Roboto', sans-serif;
+$codeFont: 'Fira Code', monospace;
+
 
 @mixin rebase($rebase03,$rebase02,$rebase01,$rebase00,$rebase0,$rebase1,$rebase2,$rebase3) 
 {
