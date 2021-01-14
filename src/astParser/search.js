@@ -1,5 +1,5 @@
 import Fuse from 'fuse.js';
-import {formatType} from '../astParser/index'
+import { formatType } from '../astParser/index';
 
 const returnMatcher = (obj) => formatType(obj.return);
 
@@ -15,9 +15,9 @@ const fuseOptions = {
   keys: [
     { name: 'name', weight: 2 },
     { name: 'parents', weight: 1.5 },
-    // { name: 'parameters.name', weight: 1.5 },
-    // 'parameters.type',
-    // 'return',
+    { name: 'parameters.name', weight: 1.5 },
+    'parameters.type',
+    'return',
   ],
 };
 
@@ -46,7 +46,6 @@ const buildFuseQuery = (query) => {
   };
 
   const hasTarget = new RegExp(`[${Object.keys(targets).join('')}]=\\S`);
-  if (!hasTarget.test(query)) return query;
 
   const logicalQueries = [];
   const rgx = new RegExp(
@@ -60,10 +59,10 @@ const buildFuseQuery = (query) => {
         $val: match.groups.query,
       });
     // If this match doesnt have target specified it should apply to all keys
-    else
+    else {
       logicalQueries.push({
         // reverse operators need to match all keys. all others need to match only one key
-        [match[0] === '!' ? '$and' : '$or']: fuseOptions.keys.reduce(
+        [match[0][0] === '!' ? '$and' : '$or']: fuseOptions.keys.reduce(
           (acc, key) =>
             acc.concat({
               $path: [key.name ?? key],
@@ -72,6 +71,7 @@ const buildFuseQuery = (query) => {
           []
         ),
       });
+    }
   }
 
   return { $and: logicalQueries };
@@ -84,7 +84,6 @@ export default (collection) => {
       return collapseOverloads(collection.map((item) => ({ item: item })));
 
     const fuseQuery = buildFuseQuery(query);
-    // console.log(query, '|||', fuseQuery);
     return collapseOverloads(fuse.search(fuseQuery));
   };
 };
