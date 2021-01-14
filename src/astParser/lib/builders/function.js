@@ -1,5 +1,5 @@
 import dispatch from '../dispatcher.js';
-// import ts from 'typescript';
+import ts from '../../tsImporter.js';
 
 const buildFunction = category => (functionNode, parents) => {
   const func = {};

@@ -1,9 +1,9 @@
 import dispatch from '../dispatcher.js';
-// import ts from 'typescript';
+import ts from '../../tsImporter.js';
 
 const buildProperty = (category) => (node, parents) => {
   const prop = {};
-  prop.category = category;
+  prop.category = category; 
   if (parents) prop.parents = parents;
 
   prop.name = node.name?.escapedText;

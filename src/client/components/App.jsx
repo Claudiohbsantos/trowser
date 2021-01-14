@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 import { render } from 'react-dom';
 import { buildSymbolList, createSearchInstance } from '../../astParser/index';
-// import ts from 'typescript';
 import styles from './App.module.scss';
 import SearchBar from './SearchBar';
 import Results from './Results';

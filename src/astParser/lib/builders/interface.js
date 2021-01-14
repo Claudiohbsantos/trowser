@@ -1,5 +1,5 @@
 import dispatch from '../dispatcher.js';
-// import ts from 'typescript';
+import ts from '../../tsImporter.js';
 
 export default function buildInterface(node, parents) {
   const itf = {};

@@ -1,4 +1,4 @@
-// import ts from 'typescript';
+import ts from '../tsImporter.js';
 
 import buildFunction from './builders/function.js';
 import buildParameter from './builders/parameter.js';

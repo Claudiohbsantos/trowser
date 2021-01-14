@@ -1,5 +1,5 @@
 // https://ast.carlosroso.com/
-// import ts from 'typescript';
+import ts from './tsImporter.js';
 import { crawl } from './lib/dispatcher.js';
 import lister from './lister.js';
 export {default as createSearchInstance} from './search.js';

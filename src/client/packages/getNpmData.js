@@ -10,19 +10,19 @@ const memP = (promiser) => {
   };
 };
 
-const getNpmData = (packageName) => {
-  const npmUrl = (packageName) => `https://registry.npmjs.org/${packageName}`;
+// const getNpmData = (packageName) => {
+//   const npmUrl = (packageName) => `https://registry.npmjs.org/${packageName}`;
 
-  // set header to receive abbreviated response
-  fetch(npmUrl, { headers: { Accept: 'application/vnd.npm.install-v1+jsonn' } })
-    .then((res) => res.json())
-    .then((data) => console.log(data));
-};
+//   // set header to receive abbreviated response
+//   fetch(npmUrl, { headers: { Accept: 'application/vnd.npm.install-v1+jsonn' } })
+//     .then((res) => res.json())
+//     .then((data) => console.log(data));
+// };
 
 // returns promise that resolves to type declaration url or rejects with an error
-const getUnpkgData = (packageName) => {
-  const unpkgUrl = `https://unpkg.com/${packageName}`;
-  const packageJson = `${unpkgUrl}/package.json`;
+const getPackageData = (packageName) => {
+  const packageUrl = `https://unpkg.com/${packageName}`;
+  const packageJson = `${packageUrl}/package.json`;
   return fetch(packageJson)
     .then((res) => {
       if (res.status !== 200) throw new Error(`package ${packageName} not found on unpkg`);
@@ -31,10 +31,19 @@ const getUnpkgData = (packageName) => {
     .then((res) => res.json())
     .then((data) => {
       if (!data.types) throw new Error('no types key on package.json');
-      return `${unpkgUrl}/${data.types}`;
+      return `${packageUrl}/${data.types}`;
     });
 };
 
-const memGetUnpkgData = memP(getUnpkgData)
+// try to get declaration files from definitely typed
+const getDefinitelyTyped = (packageName) => {
+  const declarationUrl = `https://unpkg.com/@types/${packageName}/index.d.ts`;
+  // return tentaive url and let fails be handled at App.jsx
+  return declarationUrl;
+};
 
-export const getPackageTypeInfo = (packageName) => memGetUnpkgData(packageName);
+const attemptUrlFromName = memP((packageName) =>
+  getPackageData(packageName).catch((err) => getDefinitelyTyped(packageName))
+);
+
+export const getPackageTypeInfo = (packageName) => attemptUrlFromName(packageName);

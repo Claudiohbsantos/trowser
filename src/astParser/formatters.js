@@ -27,22 +27,32 @@ export function formatType(type) {
       return `${formatType(type.elementType)}[]`;
     }
     case 'object': {
-      return `{ ${type.properties.map((t) => `${t.name}: ${formatType(t.type)}`).join(' , ')} }`;
+      return `{ ${type.properties.map((t) => `${t?.name}: ${formatType(t?.type)}`).join(' , ')} }`;
     }
     default: {
-      return type?.name || type;
+      if (type?.name) return type.name
+      if (typeof type === 'string') return type
+      return '---FAIL---'
     }
   }
 }
 // parts = [parents, name, parameters, return]
 // returns an array because that way order information is kept
 export function formatSignatureParts(item) {
-  return [
-    item.parents,
-    item.name,
-    item.parameters.map(p => ({isRest: p.isRest,name: p.name,isOptional: p.isOptional, type:formatType(p.type)})),
-    formatType(item.return)
-  ]
+  try {
+    const parts = [
+      item.parents,
+      item.name,
+      item.parameters.map((p) => ({
+        isRest: p?.isRest,
+        name: p?.name,
+        isOptional: p?.isOptional,
+        type: formatType(p?.type),
+      })),
+      formatType(item?.return),
+    ];
+    return parts;
+  } catch(err) {console.log(item,err)}
 }
 
 export function formatTypedSignature(entry) {

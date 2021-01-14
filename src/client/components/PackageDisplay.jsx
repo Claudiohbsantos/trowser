@@ -3,7 +3,6 @@ import React from 'react';
 import styles from './PackageDisplay.module.scss';
 import { getPackageTypeInfo } from '../packages/getNpmData';
 
-// memoizes promise and prevents multiple calls to same url
 
 
 const PackageDisplay = ({ name, changePackage }) => {

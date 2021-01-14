@@ -8,7 +8,6 @@ const Results = ({ query, searcher }) => {
   const [showReturn, setShowReturn] = useState(true);
 
   const results = searcher(query);
-
   return (
     <div className={styles.searchResults}>
       {results.map((entry) => (
