@@ -47,7 +47,7 @@ const ExpandedEntry = ({ item }) => {
   return (
     <div className={styles.entryCard}>
       {item?.description ? <Description description={item.description} /> : null}
-      {item?.parameters ? <Parameters parameters={item.parameters} /> : null}
+      {item?.parameters?.length ? <Parameters parameters={item.parameters} /> : null}
       {item?.return ? <ReturnType returnType={item.return} /> : null}
     </div>
   );
