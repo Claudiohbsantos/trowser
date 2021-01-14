@@ -46,7 +46,7 @@ const ReturnType = ({ returnType }) => (
 );
 
 const Overload = ({ entry }) => (
-  <div>
+  <div className={styles.overload}>
     <MethodSignature entry={entry} showType={true} showParents={false} showReturn={true} />
   </div>
 );
