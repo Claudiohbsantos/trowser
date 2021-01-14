@@ -15,9 +15,9 @@ const fuseOptions = {
   keys: [
     { name: 'name', weight: 2 },
     { name: 'parents', weight: 1.5 },
-    { name: 'parameters.name', weight: 1.5 },
-    'parameters.type',
-    'return',
+    // { name: 'parameters.name', weight: 1.5 },
+    // 'parameters.type',
+    // 'return',
   ],
 };
 
@@ -39,9 +39,9 @@ const collapseOverloads = (results) => {
 const buildFuseQuery = (query) => {
   const targets = {
     p: 'parameters.name',
+    a: 'parents',
     r: 'return',
     n: 'name',
-    // TODO: t should match paremeter types or return types
     t: 'parameters.type',
   };
 
@@ -84,7 +84,7 @@ export default (collection) => {
       return collapseOverloads(collection.map((item) => ({ item: item })));
 
     const fuseQuery = buildFuseQuery(query);
-    console.log(query, '|||', fuseQuery);
+    // console.log(query, '|||', fuseQuery);
     return collapseOverloads(fuse.search(fuseQuery));
   };
 };
