@@ -1,5 +1,16 @@
 @import '../colors.scss';
 
+.entry {
+  margin-bottom: 8px;
+  letter-spacing:1.1;
+  line-height:1.4em;
+  cursor: pointer;
+}
+
+.entry:hover {
+  font-weight: bold;
+}
+
 .parentsWrapper {
   display: inline-block;
   position:absolute;
@@ -15,14 +26,15 @@
 }
 
 .parameterName {
-  color: $red;
+  color: $parameterName;
 }
 
 .parameterType {
-  color: $yellow;
+  color: $parameterType;
 }
 
 .punctuation {
+  // ligature are not rendenring
   color: $base01;
 }
 

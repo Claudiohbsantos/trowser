@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { formatSignature, formatTypedSignature, formatSignatureParts } from '../../astParser/index';
 import styles from './ResultEntry.module.scss';
+import ExpandedEntry from './ExpandedEntry';
 
 const unsafeJoinComponents = (arr, separator) => {
   if (!arr) return null;
@@ -51,29 +52,36 @@ const Return = (show) => (returnType) => {
   if (!show) return null;
   return (
     <span>
-      <span className={styles.punctuation}> => </span>
-      <span className={styles.returnType}> {returnType}</span>
+      {punct(' => ')}
+      <span className={styles.returnType}>{returnType}</span>
     </span>
   );
 };
 
 const transform = (transformers, parts) => parts.map((part, i) => transformers[i](part));
-const opacityFromRelevance = (score) => (score ? 1 - score : 1);
-const grayscaleFromRelevance = (score) => (score ? score * 100 : 0);
+// const opacityFromRelevance = (score) => (score ? 1 - score : 1);
+// const grayscaleFromRelevance = (score) => (score ? score * 100 : 0);
 
-const ResultEntry = ({ entry, showType, showParents }) => {
+const ResultEntry = ({ entry, showType, showParents, showReturn }) => {
+  const [showExpandedCard, setShowExpandedCard] = useState(false);
   const parts = formatSignatureParts(entry.item);
-  const transformers = [Parents(showParents), Name, Parameters(showType), Return(showType)];
+  const transformers = [Parents(showParents), Name, Parameters(showType), Return(showReturn)];
   // todo: show overloads count
   return (
-    <div
-      className={styles.entry}
-      style={{
-        opacity: opacityFromRelevance(entry.score),
-        // filter: `grayscale(${grayscaleFromRelevance(entry.score)})`,
-      }}
-    >
-      {transform(transformers, parts)}
+    <div>
+      <div
+        className={styles.entry}
+        onClick={() => setShowExpandedCard(!showExpandedCard)}
+        style={
+          {
+            // opacity: opacityFromRelevance(entry.score),
+            // filter: `grayscale(${grayscaleFromRelevance(entry.score)})`,
+          }
+        }
+      >
+        {transform(transformers, parts)}
+      </div>
+      {showExpandedCard ? <ExpandedEntry item={entry.item} /> : null}
     </div>
   );
 };

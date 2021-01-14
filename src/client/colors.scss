@@ -17,7 +17,14 @@ $cyan:      #2aa198;
 $green:     #859900;
 
 $title: $orange;
+$parameterName: $red;
+$parameterType: $yellow;
+$returnType: $violet;
+
 $darkFont: $base02;
+$lightFont: $base1;
+
+$textFont: 'Montserrat', sans-serif;
 
 @mixin rebase($rebase03,$rebase02,$rebase01,$rebase00,$rebase0,$rebase1,$rebase2,$rebase3) 
 {

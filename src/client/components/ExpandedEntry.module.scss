@@ -1,0 +1,45 @@
+@import '../colors.scss';
+
+.entryCard {
+  // padding: 5px;
+  margin: 20px 0;
+}
+
+.subheader {
+  font-size:1em;
+  font-family: $textFont;
+  font-weight: normal;
+  position: absolute;
+  // calculation don't work inside translate.
+  transform: translateX(-100%) translateX(-15px);
+  margin:0;
+  color:$base00;
+
+}
+
+.parameterList {
+  padding:0;
+  list-style: none;
+}
+
+.param {
+  margin:13px 0;
+}
+
+.paramName {
+  color: $parameterName;
+}
+
+.paramType {
+  color: $parameterType;
+}
+
+.returnType {
+  color: $returnType;
+}
+
+.paramDescription, .description {
+  font-family: $textFont;
+  margin: 5px 0;
+  color:$lightFont;
+}

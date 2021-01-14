@@ -11,7 +11,7 @@ function formatTypedParameters(params) {
     .join(', ')}`;
 }
 
-function formatType(type) {
+export function formatType(type) {
   if (!type) return '---NOPE---';
   switch (type.category) {
     case 'functionType': {
@@ -24,7 +24,7 @@ function formatType(type) {
       return type.types.map((t) => formatType(t)).join(' & ');
     }
     case 'array': {
-      return `${type.elementType}[]`;
+      return `${formatType(type.elementType)}[]`;
     }
     case 'object': {
       return `{ ${type.properties.map((t) => `${t.name}: ${formatType(t.type)}`).join(' , ')} }`;
