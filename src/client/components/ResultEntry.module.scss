@@ -18,11 +18,11 @@
 }
 
 .parents {
-  color: $green;
+  color: $blue;
 }
 
 .name {
-  color: $blue;
+  color: $green;
 }
 
 .parameterName {
@@ -40,4 +40,8 @@
 
 .returnType {
   color: $violet;
+}
+
+.overloads {
+  color: $base00;
 }

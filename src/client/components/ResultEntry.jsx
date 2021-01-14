@@ -3,6 +3,8 @@ import { formatSignature, formatTypedSignature, formatSignatureParts } from '../
 import styles from './ResultEntry.module.scss';
 import ExpandedEntry from './ExpandedEntry';
 
+// TODO: turn functions into react components
+
 const unsafeJoinComponents = (arr, separator) => {
   if (!arr) return null;
   for (let i = arr.length - 2; i >= 0; i--) {
@@ -58,6 +60,9 @@ const Return = (show) => (returnType) => {
   );
 };
 
+const Overloads = (otherOverloads) =>
+  otherOverloads ? <span className={styles.overloads}> +{otherOverloads}</span> : null;
+
 const transform = (transformers, parts) => parts.map((part, i) => transformers[i](part));
 // const opacityFromRelevance = (score) => (score ? 1 - score : 1);
 // const grayscaleFromRelevance = (score) => (score ? score * 100 : 0);
@@ -65,7 +70,13 @@ const transform = (transformers, parts) => parts.map((part, i) => transformers[i
 const ResultEntry = ({ entry, showType, showParents, showReturn }) => {
   const [showExpandedCard, setShowExpandedCard] = useState(false);
   const parts = formatSignatureParts(entry.item);
-  const transformers = [Parents(showParents), Name, Parameters(showType), Return(showReturn)];
+  const transformers = [
+    Parents(showParents),
+    Name,
+    Parameters(showType),
+    Return(showReturn),
+    Overloads,
+  ];
   // todo: show overloads count
   return (
     <div>
@@ -79,7 +90,7 @@ const ResultEntry = ({ entry, showType, showParents, showReturn }) => {
           }
         }
       >
-        {transform(transformers, parts)}
+        {transform(transformers, parts.concat(entry.otherOverloads))}
       </div>
       {showExpandedCard ? <ExpandedEntry item={entry.item} /> : null}
     </div>

@@ -35,6 +35,7 @@ export function formatType(type) {
   }
 }
 // parts = [parents, name, parameters, return]
+// returns an array because that way order information is kept
 export function formatSignatureParts(item) {
   return [
     item.parents,
