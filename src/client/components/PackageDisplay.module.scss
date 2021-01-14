@@ -1,0 +1,23 @@
+@import '../colors.scss';
+
+
+.packageSearch {
+  background: $yellow;
+  padding: 10px 10px;
+  border: none;
+  color:$base03;
+  font-weight: bold;
+  text-align: center;
+  border-radius: 20px;
+  // TODO: auto grow on type
+  width: 500px;
+}
+
+.packageSearch:focus {
+  background: scale-color($yellow, $lightness: 20%);
+  outline: none;
+}
+
+.packageSearch::placeholder {
+  color:$base03;
+}

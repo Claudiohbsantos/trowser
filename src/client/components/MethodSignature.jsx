@@ -30,7 +30,7 @@ const Parents = (show) => (parents) => {
 const Name = (name) => <span className={styles.name}>{name}</span>;
 
 const Parameter = (showType) => (p) => (
-  <span className={styles.parameter}>
+  <span className={styles.parameter} key={`_param_${p.name}`}>
     {p.isRest ? punct('...') : null}
     <span className={styles.parameterName}>{p.name}</span>
     {p.isOptional ? punct('?') : null}

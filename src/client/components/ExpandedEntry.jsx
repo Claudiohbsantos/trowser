@@ -47,7 +47,7 @@ const ReturnType = ({ returnType }) => (
 
 const Overload = ({ entry }) => (
   <div>
-    <MethodSignature entry={entry} showType={false} showParents={false} showReturn={true} />
+    <MethodSignature entry={entry} showType={true} showParents={false} showReturn={true} />
   </div>
 );
 
