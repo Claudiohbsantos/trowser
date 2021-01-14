@@ -17,7 +17,7 @@ const Results = ({ query, searcher }) => {
           showType={showType}
           showParents={showParents}
           showReturn={showReturn}
-          key={`${entry.item.name}`}
+          key={`_result_${entry.item?.parents.join('') + entry.item.name}`}
         />
       ))}
     </div>
