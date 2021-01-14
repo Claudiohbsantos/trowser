@@ -2,6 +2,7 @@
 const searcheables = ['method', 'function', 'classMethod'];
 
 export default function lister(symbols) {
+  console.log('running lister')
   const list = [];
 
   const traverseSymbols = obj => {

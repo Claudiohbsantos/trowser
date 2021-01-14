@@ -6,6 +6,19 @@ import SearchBar from './SearchBar';
 import Results from './Results';
 import PackageDisplay from './PackageDisplay';
 
+const debounce = (timeout, func) => {
+  let currTimer;
+  let latestParams;
+  return (...params) => {
+    latestParams = params
+    if (!currTimer)
+      currTimer = setTimeout(() => {
+        currTimer = null;
+        func(...latestParams);
+      }, timeout);
+  };
+};
+
 export default class App extends Component {
   constructor() {
     super();
@@ -18,6 +31,7 @@ export default class App extends Component {
     };
     this.searchOnChange = this.searchOnChange.bind(this);
     this.changePackage = this.changePackage.bind(this);
+    this.debouncedSearch = debounce(300, (searchStr) => this.setState({ query: searchStr }));
   }
 
   updateSymbolsAndState(newState) {
@@ -32,7 +46,7 @@ export default class App extends Component {
   }
 
   searchOnChange({ target: { value } }) {
-    this.setState({ query: value });
+    this.debouncedSearch(value);
   }
 
   changePackage(packageName, declarationUrl) {

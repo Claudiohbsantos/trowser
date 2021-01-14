@@ -26,7 +26,7 @@ const ParamEntry = ({ param }) => {
 const ParameterList = ({ parameters }) => (
   <ul className={styles.parameterList}>
     {parameters.map((p) => (
-      <ParamEntry param={p} />
+      <ParamEntry param={p} key={`_expandedparam_${p?.name}`}/>
     ))}
   </ul>
 );

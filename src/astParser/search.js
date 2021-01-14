@@ -84,6 +84,7 @@ const buildFuseQuery = (query) => {
 export default (collection) => {
   const fuse = new Fuse(collection, fuseOptions);
   return (query) => {
+  console.log('running search')
     if (!query) return collapseOverloads(collection.map((item) => ({ item: item })));
 
     const fuseQuery = buildFuseQuery(query);
