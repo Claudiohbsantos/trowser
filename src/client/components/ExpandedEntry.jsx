@@ -1,6 +1,7 @@
 import React from 'react';
 import styles from './ExpandedEntry.module.scss';
 import { formatType } from '../../astParser/index';
+import MethodSignature from './MethodSignature';
 
 const punct = (str) => <span className={styles.punctuation}>{str}</span>;
 
@@ -43,12 +44,30 @@ const ReturnType = ({ returnType }) => (
     <span className={styles.returnType}>{formatType(returnType)}</span>
   </div>
 );
-const ExpandedEntry = ({ item }) => {
+
+const Overload = ({ entry }) => (
+  <div>
+    <MethodSignature entry={entry} showType={false} showParents={false} showReturn={true} />
+  </div>
+);
+
+const OverloadsList = ({ entries }) => (
+  <div className={styles.overloadList}>
+    <h3 className={styles.subheader}>Overloads</h3>
+    {entries.map((e, i) => (
+      <Overload entry={e} key={`overload_${e.name}_${i}`} />
+    ))}
+  </div>
+);
+
+const ExpandedEntry = ({ entry }) => {
+  const item = entry.item;
   return (
     <div className={styles.entryCard}>
       {item?.description ? <Description description={item.description} /> : null}
       {item?.parameters?.length ? <Parameters parameters={item.parameters} /> : null}
       {item?.return ? <ReturnType returnType={item.return} /> : null}
+      {entry?.otherOverloads.length ? <OverloadsList entries={entry.otherOverloads} /> : null}
     </div>
   );
 };

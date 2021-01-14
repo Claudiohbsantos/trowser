@@ -56,5 +56,5 @@ export function formatSignature(entry) {
   const item = entry.item;
   return `${formatParents(item.parents)}${item.name}(${item.parameters
     .map((p) => p.name)
-    .join(', ')}) [+${entry.otherOverloads}]`;
+    .join(', ')}) [+${entry.otherOverloads?.length}]`;
 }

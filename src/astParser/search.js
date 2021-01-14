@@ -28,10 +28,12 @@ const fuseOptions = {
   ],
 };
 
+const safeKey = item => `_key_${item?.parents.join('') + item.name}`
+
 const collapseOverloads = (results) => {
   const mostRelevantResults = results.reduce((acc, entry) => {
-    if (!acc[entry.item.name]) acc[entry.item.name] = Object.assign(entry, { otherOverloads: 0 });
-    else acc[entry.item.name].otherOverloads++;
+    if (!acc[safeKey(entry.item)]) acc[safeKey(entry.item)] = Object.assign(entry, { otherOverloads: [] });
+    else acc[safeKey(entry.item)].otherOverloads.push(entry.item)
 
     return acc;
   }, {});

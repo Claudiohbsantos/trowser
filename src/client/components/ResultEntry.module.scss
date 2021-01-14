@@ -10,38 +10,3 @@
 .entry:hover {
   font-weight: bold;
 }
-
-.parentsWrapper {
-  display: inline-block;
-  position:absolute;
-  transform: translateX(-100%)
-}
-
-.parents {
-  color: $blue;
-}
-
-.name {
-  color: $green;
-}
-
-.parameterName {
-  color: $parameterName;
-}
-
-.parameterType {
-  color: $parameterType;
-}
-
-.punctuation {
-  // ligature are not rendenring
-  color: $base01;
-}
-
-.returnType {
-  color: $violet;
-}
-
-.overloads {
-  color: $base00;
-}
