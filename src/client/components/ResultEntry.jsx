@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import styles from './ResultEntry.module.scss';
 import ExpandedEntry from './ExpandedEntry';
 import MethodSignature from './MethodSignature';
+import { TopDimmerPlate , BottomDimmerPlate} from './DimmerPlate';
 
 // const opacityFromRelevance = (score) => (score ? 1 - score : 1);
 // const grayscaleFromRelevance = (score) => (score ? score * 100 : 0);
@@ -17,6 +18,7 @@ const ResultEntry = (props) => {
 
   return (
     <div>
+      {showExpandedCard ? <TopDimmerPlate clickHandler={onClickHandler}/> : null}
       <div
         className={`${styles.entry} ${expanded}`}
         onClick={onClickHandler}
@@ -30,6 +32,7 @@ const ResultEntry = (props) => {
         <MethodSignature {...props} />
       </div>
       {showExpandedCard ? <ExpandedEntry entry={props.entry} /> : null}
+      {showExpandedCard ? <BottomDimmerPlate clickHandler={onClickHandler}/> : null}
     </div>
   );
 };
