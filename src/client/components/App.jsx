@@ -5,12 +5,13 @@ import styles from './App.module.scss';
 import SearchBar from './SearchBar';
 import Results from './Results';
 import PackageDisplay from './PackageDisplay';
+import { getPackageTypeInfo } from '../packages/getNpmData';
 
 const debounce = (timeout, func) => {
   let currTimer;
   let latestParams;
   return (...params) => {
-    latestParams = params
+    latestParams = params;
     if (!currTimer)
       currTimer = setTimeout(() => {
         currTimer = null;
@@ -26,7 +27,8 @@ export default class App extends Component {
       declarationUrl: 'https://unpkg.com/typescript@4.1.3/lib/lib.es5.d.ts',
       packageName: 'es5',
       searchInstance: () => [],
-      symbolsList: [],
+      // symbolsList: [],
+      isLoading: false,
       query: '',
     };
     this.searchOnChange = this.searchOnChange.bind(this);
@@ -40,17 +42,22 @@ export default class App extends Component {
       .then((declaration) => {
         const symbolList = buildSymbolList(declaration);
         const searchInstance = createSearchInstance(symbolList);
-        this.setState({ searchInstance, ...newState });
+        this.setState({ searchInstance, ...newState , isLoading: false });
       })
       .catch((err) => console.error(err));
   }
 
-  searchOnChange({ target: { value } }) {
-    this.debouncedSearch(value);
+  changePackage(packageName) {
+    this.setState({ isLoading: true }, () => {
+      console.log('super');
+      getPackageTypeInfo(packageName)
+        .then((url) => this.updateSymbolsAndState({ packageName, declarationUrl: url }))
+        .catch((err) => console.error(err));
+    });
   }
 
-  changePackage(packageName, declarationUrl) {
-    this.updateSymbolsAndState({ packageName, declarationUrl });
+  searchOnChange({ target: { value } }) {
+    this.debouncedSearch(value);
   }
 
   componentDidMount() {
@@ -64,7 +71,7 @@ export default class App extends Component {
     return (
       <div id="app-container">
         <h1 className={styles.title}>Trowser</h1>
-        <PackageDisplay name={this.state.packageName} changePackage={this.changePackage} />
+        <PackageDisplay name={this.state.packageName} changePackage={this.changePackage} isLoading={this.state.isLoading}/>
         <SearchBar onChange={this.searchOnChange} />
         <Results searcher={this.state.searchInstance} query={this.state.query} />
       </div>
