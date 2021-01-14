@@ -30,8 +30,8 @@ const getPackageData = (packageName) => {
     })
     .then((res) => res.json())
     .then((data) => {
-      if (!data.types) throw new Error('no types key on package.json');
-      return `${packageUrl}/${data.types}`;
+      if (!data.types && !data.typings) throw new Error('no types key on package.json');
+      return `${packageUrl}/${data.types || data.typings}`;
     });
 };
 
