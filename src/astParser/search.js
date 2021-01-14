@@ -1,14 +1,7 @@
 import Fuse from 'fuse.js';
+import {formatType} from '../astParser/index'
 
-const getReturnTypeName = (returnType) => {
-  if (typeof returnType === 'string') return returnType;
-  if (returnType.name) return returnType.name;
-  if (returnType.elementType) return getReturnTypeName(returnType.elementType);
-  // TODO: needs implementation for unions, intersections, ....
-  return '';
-};
-
-const returnMatcher = (obj) => getReturnTypeName(obj.return);
+const returnMatcher = (obj) => formatType(obj.return);
 
 const fuseOptions = {
   getFn: (obj, path) => {
@@ -24,16 +17,17 @@ const fuseOptions = {
     { name: 'parents', weight: 1.5 },
     { name: 'parameters.name', weight: 1.5 },
     'parameters.type',
-    // 'return',
+    'return',
   ],
 };
 
-const safeKey = item => `_key_${item?.parents.join('') + item.name}`
+const safeKey = (item) => `_key_${item?.parents.join('') + item.name}`;
 
 const collapseOverloads = (results) => {
   const mostRelevantResults = results.reduce((acc, entry) => {
-    if (!acc[safeKey(entry.item)]) acc[safeKey(entry.item)] = Object.assign(entry, { otherOverloads: [] });
-    else acc[safeKey(entry.item)].otherOverloads.push(entry.item)
+    if (!acc[safeKey(entry.item)])
+      acc[safeKey(entry.item)] = Object.assign(entry, { otherOverloads: [] });
+    else acc[safeKey(entry.item)].otherOverloads.push(entry.item);
 
     return acc;
   }, {});
@@ -55,14 +49,16 @@ const buildFuseQuery = (query) => {
   if (!hasTarget.test(query)) return query;
 
   const logicalQueries = [];
-  const rgx = new RegExp(`(?:(?<target>[${Object.keys(targets).join('')}])(?==))?=?(?<query>\\S+)`, 'g')
+  const rgx = new RegExp(
+    `(?:(?<target>[${Object.keys(targets).join('')}])(?==))?=?(?<query>\\S+)`,
+    'g'
+  );
   for (const match of query.matchAll(rgx)) {
     if (match.groups.target && match.groups.query)
       logicalQueries.push({
         $path: [targets[match.groups.target]],
         $val: match.groups.query,
       });
-
     // If this match doesnt have target specified it should apply to all keys
     else
       logicalQueries.push({
@@ -84,11 +80,11 @@ const buildFuseQuery = (query) => {
 export default (collection) => {
   const fuse = new Fuse(collection, fuseOptions);
   return (query) => {
-  console.log('running search')
-    if (!query) return collapseOverloads(collection.map((item) => ({ item: item })));
+    if (!query || !/\w/.test(query))
+      return collapseOverloads(collection.map((item) => ({ item: item })));
 
     const fuseQuery = buildFuseQuery(query);
-    
+    console.log(query, '|||', fuseQuery);
     return collapseOverloads(fuse.search(fuseQuery));
   };
 };
