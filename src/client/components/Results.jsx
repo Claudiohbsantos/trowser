@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 import ResultEntry from './ResultEntry';
-import styles from './Results.module.scss';
+import styled from 'styled-components';
+
+const SearcResults = styled.div`
+  width: 60%;
+  margin-left: 20%;
+`;
 
 const Results = ({ query, searcher }) => {
   const [showType, setShowType] = useState(false);
@@ -9,7 +14,7 @@ const Results = ({ query, searcher }) => {
 
   const results = searcher(query);
   return (
-    <div className={styles.searchResults}>
+    <SearcResults>
       {results.map((entry) => (
         <ResultEntry
           entry={entry}
@@ -19,7 +24,7 @@ const Results = ({ query, searcher }) => {
           key={`_result_${entry.item?.parents?.join('') + entry.item.name}`}
         />
       ))}
-    </div>
+    </SearcResults>
   );
 };
 

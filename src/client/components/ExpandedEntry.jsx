@@ -1,74 +1,122 @@
 import React from 'react';
-import styles from './ExpandedEntry.module.scss';
+import styled from 'styled-components';
 import { formatType } from '../../astParser/index';
 import MethodSignature from './MethodSignature';
 
-const punct = (str) => <span className={styles.punctuation}>{str}</span>;
+const EntryCard = styled.div`
+  margin: 20px 0;
+`;
 
-const Description = ({ description }) => <div className={styles.description}>{description}</div>;
+const Subheader = styled.h3`
+  font-size: 1em;
+  font-family: ${(props) => props.theme.textFont};
+  font-weight: normal;
+  position: absolute;
+  // calculation don't work inside translate.
+  transform: translateX(-100%) translateX(-15px);
+  margin: 0;
+  color: ${(props) => props.theme.base00};
+`;
+
+const ParameterListEl = styled.ul`
+  padding: 0;
+  list-style: none;
+`;
+
+const ParamLi = styled.li`
+  margin: 13px 0;
+`;
+
+const ParamName = styled.span`
+  color: ${(props) => props.theme.parameterName};
+`;
+
+const ParamType = styled.span`
+  color: ${(props) => props.theme.parameterType};
+`;
+
+const ReturnTypeDiv = styled.span`
+  color: ${(props) => props.theme.returnType};
+`;
+
+const DescriptionDiv = styled.div`
+  font-family: ${(props) => props.theme.textFont};
+  margin: 5px 0;
+  color: ${(props) => props.theme.lightFont};
+  letter-spacing: 1.1;
+`;
+
+const OverloadListDiv = styled.div`
+  margin: 20px 0;
+`;
+
+const OverloadDiv = styled.div`
+  margin: 10px 0;
+`;
+
+const punct = (str) => <span>{str}</span>;
+
+const Description = ({ description }) => <DescriptionDiv>{description}</DescriptionDiv>;
 
 const ParamEntry = ({ param }) => {
-  // console.log(param.type, formatType(param.type));
   return (
-    <li className={styles.param}>
+    <ParamLi>
       {param.isRest ? punct('...') : null}
-      <span className={styles.paramName}>{param.name}</span>
+      <ParamName>{param.name}</ParamName>
       {param.isOptional ? punct('?') : null}
       {punct(': ')}
-      <span className={styles.paramType}>{formatType(param.type) ?? null}</span>
-      {!param.description ? null : (
-        <div className={styles.paramDescription}>{param.description}</div>
-      )}
-    </li>
+      <ParamType>{formatType(param.type) ?? null}</ParamType>
+      {!param.description ? null : <DescriptionDiv>{param.description}</DescriptionDiv>}
+    </ParamLi>
   );
 };
 
 const ParameterList = ({ parameters }) => (
-  <ul className={styles.parameterList}>
+  <ParameterListEl>
     {parameters.map((p) => (
-      <ParamEntry param={p} key={`_expandedparam_${p?.name}`}/>
+      <ParamEntry param={p} key={`_expandedparam_${p?.name}`} />
     ))}
-  </ul>
+  </ParameterListEl>
 );
 
 const Parameters = ({ parameters }) => (
-  <div className={styles.parameters}>
-    <h3 className={styles.subheader}>Parameters</h3>
+  <div>
+    <Subheader>Parameters</Subheader>
     <ParameterList parameters={parameters} />
   </div>
 );
 
 const ReturnType = ({ returnType }) => (
-  <div className={styles.returnType}>
-    <h3 className={styles.subheader}>Return</h3>
-    <span className={styles.returnType}>{formatType(returnType)}</span>
+  <div>
+    <Subheader>Return</Subheader>
+    <ReturnTypeDiv>{formatType(returnType)}</ReturnTypeDiv>
   </div>
 );
 
 const Overload = ({ entry }) => (
-  <div className={styles.overload}>
+  <OverloadDiv>
     <MethodSignature entry={entry} showType={true} showParents={false} showReturn={true} />
-  </div>
+  </OverloadDiv>
 );
 
 const OverloadsList = ({ entries }) => (
-  <div className={styles.overloadList}>
-    <h3 className={styles.subheader}>Overloads</h3>
+  <OverloadListDiv>
+    <Subheader>Overloads</Subheader>
     {entries.map((e, i) => (
       <Overload entry={e} key={`overload_${e.name}_${i}`} />
     ))}
-  </div>
+  </OverloadListDiv>
 );
 
 const ExpandedEntry = ({ entry }) => {
   const item = entry.item;
   return (
-    <div className={styles.entryCard}>
+    <EntryCard>
       {item?.description ? <Description description={item.description} /> : null}
       {item?.parameters?.length ? <Parameters parameters={item.parameters} /> : null}
       {item?.return ? <ReturnType returnType={item.return} /> : null}
       {entry?.otherOverloads.length ? <OverloadsList entries={entry.otherOverloads} /> : null}
-    </div>
+    </EntryCard>
   );
 };
 

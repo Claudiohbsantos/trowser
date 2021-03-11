@@ -1,38 +1,44 @@
 import React, { useState } from 'react';
-import styles from './ResultEntry.module.scss';
+import styled from 'styled-components';
 import ExpandedEntry from './ExpandedEntry';
 import MethodSignature from './MethodSignature';
-import { TopDimmerPlate , BottomDimmerPlate} from './DimmerPlate';
+import { TopDimmerPlate, BottomDimmerPlate } from './DimmerPlate';
 
-// const opacityFromRelevance = (score) => (score ? 1 - score : 1);
-// const grayscaleFromRelevance = (score) => (score ? score * 100 : 0);
+const Entry = styled.div`
+  margin-bottom: 8px;
+  letter-spacing: 1.1;
+  line-height: 1.4em;
+  cursor: pointer;
+
+  ${(props) =>
+    props.isExpanded
+      ? `
+  font-weight: bold;
+  padding-bottom: 5px;
+  border-bottom: 1px solid $base01;
+  `
+      : ''}
+
+  &:hover {
+    font-weight: bold;
+  }
+`;
 
 const ResultEntry = (props) => {
-  const [expanded, setExpanded] = useState('')
   const [showExpandedCard, setShowExpandedCard] = useState(false);
 
   const onClickHandler = () => {
-    setExpanded(expanded ? '' : styles.expanded)
     setShowExpandedCard(!showExpandedCard);
   };
 
   return (
     <div>
-      {showExpandedCard ? <TopDimmerPlate clickHandler={onClickHandler}/> : null}
-      <div
-        className={`${styles.entry} ${expanded}`}
-        onClick={onClickHandler}
-        // style={
-        // {
-        // opacity: opacityFromRelevance(entry.score),
-        // filter: `grayscale(${grayscaleFromRelevance(entry.score)})`,
-        //   }
-        // }
-      >
+      {showExpandedCard ? <TopDimmerPlate clickHandler={onClickHandler} /> : null}
+      <Entry isExpanded={showExpandedCard} onClick={onClickHandler}>
         <MethodSignature {...props} />
-      </div>
+      </Entry>
       {showExpandedCard ? <ExpandedEntry entry={props.entry} /> : null}
-      {showExpandedCard ? <BottomDimmerPlate clickHandler={onClickHandler}/> : null}
+      {showExpandedCard ? <BottomDimmerPlate clickHandler={onClickHandler} /> : null}
     </div>
   );
 };
