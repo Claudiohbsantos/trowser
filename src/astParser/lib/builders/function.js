@@ -1,5 +1,5 @@
 import dispatch from '../dispatcher.js';
-import ts from '../../tsImporter.js';
+import { SyntaxKind } from 'typescript';
 
 const buildFunction = category => (functionNode, parents) => {
   const func = {};
@@ -14,7 +14,7 @@ const buildFunction = category => (functionNode, parents) => {
   if (functionNode.jsDoc?.[0]?.comment) func.description = functionNode.jsDoc[0].comment;
 
   functionNode.jsDoc?.[0]?.tags
-    ?.filter((tag) => tag.kind === ts.SyntaxKind['JSDocParameterTag'])
+    ?.filter((tag) => tag.kind === SyntaxKind['JSDocParameterTag'])
     ?.forEach((tag) => extendParametersWithJsDoc(func.parameters, tag));
 
   // func.isExported = functionNode.modifiers?.some(mod => mod.kind === kindLookup['ExportKeyword'])

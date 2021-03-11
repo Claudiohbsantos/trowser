@@ -7,7 +7,7 @@ const PackageDisplay = ({ name, changePackage, isLoading }) => {
   const nameIsValid = (search) => /\w/.test(search) && search !== name;
 
   const getPackageURL = (search) => {
-    packageName = search.trim().toLowerCase();
+    const packageName = search.trim().toLowerCase();
     if (!nameIsValid(packageName)) return;
 
     changePackage(packageName);

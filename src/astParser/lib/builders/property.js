@@ -1,5 +1,5 @@
 import dispatch from '../dispatcher.js';
-import ts from '../../tsImporter.js';
+import { SyntaxKind } from 'typescript';
 
 const buildProperty = (category) => (node, parents) => {
   const prop = {};
@@ -10,7 +10,7 @@ const buildProperty = (category) => (node, parents) => {
   prop.type = dispatch(node.type);
 
   if (node.modifiers)
-    prop.isReadOnly = node.modifiers.some((mod) => mod.kind === ts.SyntaxKind['ReadonlyKeyword']);
+    prop.isReadOnly = node.modifiers.some((mod) => mod.kind === SyntaxKind['ReadonlyKeyword']);
 
   if (node.jsDoc?.[0]?.comment) prop.description = node.jsDoc?.[0]?.comment;
   return prop;

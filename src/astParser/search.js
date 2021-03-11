@@ -21,7 +21,7 @@ const fuseOptions = {
   ],
 };
 
-const safeKey = (item) => `_key_${item?.parents.join('') + item.name}`;
+const safeKey = (item) => `_key_${item?.parents?.join('') + item.name}`;
 
 const collapseOverloads = (results) => {
   const mostRelevantResults = results.reduce((acc, entry) => {
@@ -45,11 +45,11 @@ const buildFuseQuery = (query) => {
     t: 'parameters.type',
   };
 
-  const hasTarget = new RegExp(`[${Object.keys(targets).join('')}]=\\S`);
+  const hasTarget = new RegExp(`[${Object.keys(targets)?.join('')}]=\\S`);
 
   const logicalQueries = [];
   const rgx = new RegExp(
-    `(?:(?<target>[${Object.keys(targets).join('')}])(?==))?=?(?<query>\\S+)`,
+    `(?:(?<target>[${Object.keys(targets)?.join('')}])(?==))?=?(?<query>\\S+)`,
     'g'
   );
   for (const match of query.matchAll(rgx)) {

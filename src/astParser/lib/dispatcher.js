@@ -1,4 +1,4 @@
-import ts from '../tsImporter.js';
+import { SyntaxKind } from 'typescript';
 
 import buildFunction from './builders/function.js';
 import buildParameter from './builders/parameter.js';
@@ -69,7 +69,7 @@ const handlers = {
 };
 
 const dispatch = (node, parents) => {
-  const nodeKind = ts.SyntaxKind[node.kind];
+  const nodeKind = SyntaxKind[node.kind];
   if (handlers[nodeKind]) return handlers[nodeKind](node, parents);
 };
 

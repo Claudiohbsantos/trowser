@@ -1,3 +1,3 @@
-// import ts from 'typescript/lib/typescriptServices.js'
+import * as ts from 'typescript'
 
 export default ts

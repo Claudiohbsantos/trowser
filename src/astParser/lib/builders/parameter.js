@@ -1,5 +1,4 @@
 import dispatch from '../dispatcher.js'
-import ts from '../../tsImporter.js';
 
 export default function buildParameter(paramNode) {
   // console.log(paramNode);

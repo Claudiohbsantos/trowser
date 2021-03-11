@@ -1,5 +1,5 @@
 import dispatch from '../dispatcher.js';
-import ts from '../../tsImporter.js';
+import { SyntaxKind } from 'typescript';
 
 export default function buildClass(node, parents) {
   const cl = {};
@@ -10,7 +10,7 @@ export default function buildClass(node, parents) {
   cl.name = node.name?.escapedText;
 
   if (node.modifiers)
-    cl.isExported = node.modifiers?.some((mod) => mod.kin === ts.SyntaxKind['ExportKeyword']);
+    cl.isExported = node.modifiers?.some((mod) => mod.kin === SyntaxKind['ExportKeyword']);
   if (node.jsDoc) cl.jsDoc = node.jsDoc?.[0]?.comment;
 
   const downstreamParents = ( parents || []).concat(cl.name)

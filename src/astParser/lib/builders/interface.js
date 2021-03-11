@@ -1,5 +1,5 @@
 import dispatch from '../dispatcher.js';
-import ts from '../../tsImporter.js';
+import { SyntaxKind } from 'typescript';
 
 export default function buildInterface(node, parents) {
   const itf = {};
@@ -9,7 +9,7 @@ export default function buildInterface(node, parents) {
 
   itf.name = node.name?.escapedText;
   if (node.modifiers)
-    itf.isExported = node.modifiers?.some((mod) => mod.kind === ts.SyntaxKind['ExportKeyword']);
+    itf.isExported = node.modifiers?.some((mod) => mod.kind === SyntaxKind['ExportKeyword']);
   if (node.jsDoc) itf.jsDoc = node.jsDoc?.[0]?.comment;
 
   const downstreamParents = ( parents || []).concat(itf.name)
