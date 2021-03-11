@@ -1,10 +1,20 @@
 import React from 'react';
-import styles from './DimmerPlate.module.scss'
+import styled from 'styled-components';
 
-export const TopDimmerPlate = ({ clickHandler }) => (
-  <div className={`${styles.dimmerTop} ${styles.dimmer}`} onClick={clickHandler}></div>
-)
+const Dimmer = styled.div`
+  z-index: 2;
+  background: rgba(0, 0, 0, 0.4);
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 100%;
+`;
 
-export const BottomDimmerPlate = ({ clickHandler }) => (
-  <div className={styles.dimmer} onClick={clickHandler}></div>
-)
+const DimmerTop = styled(Dimmer)`
+  transform-origin: center top;
+  transform: rotate(180deg) translateY(5px);
+`;
+
+export const TopDimmerPlate = ({ clickHandler }) => <DimmerTop onClick={clickHandler} />;
+
+export const BottomDimmerPlate = ({ clickHandler }) => <Dimmer onClick={clickHandler} />;

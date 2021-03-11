@@ -1,6 +1,40 @@
 import React from 'react';
-import styles from './MethodSignature.module.scss';
+import styled from 'styled-components';
 import { formatSignatureParts } from '../../astParser/index';
+
+const ParentsWrapper = styled.div`
+  display: inline-block;
+  position: absolute;
+  transform: translateX(-100%);
+`;
+
+const ParentsColor = styled.span`
+  color: ${(props) => props.theme.blue};
+`;
+
+const NameColor = styled.span`
+  color: ${(props) => props.theme.green};
+`;
+
+const ParamNameColor = styled.span`
+  color: ${(props) => props.theme.parameterName};
+`;
+
+const ParamTypeColor = styled.span`
+  color: ${(props) => props.theme.parameterType};
+`;
+
+const PunctuationColor = styled.span`
+  color: ${(props) => props.theme.base01};
+`;
+
+const ReturnTypeColor = styled.span`
+  color: ${(props) => props.theme.violet};
+`;
+
+const OverloadColor = styled.span`
+  color: ${(props) => props.theme.base00};
+`;
 
 const unsafeJoinComponents = (arr, separator) => {
   if (!arr) return null;
@@ -10,37 +44,37 @@ const unsafeJoinComponents = (arr, separator) => {
   return arr;
 };
 
-const commaSeparator = <span className={styles.punctuation}>, </span>;
-const punct = (str) => <span className={styles.punctuation}>{str}</span>;
+const commaSeparator = <PunctuationColor>, </PunctuationColor>;
+const punct = (str) => <PunctuationColor>{str}</PunctuationColor>;
 
 const Parents = (show) => (parents) => {
   if (!show || !parents) return null;
   return (
-    <span className={styles.parentsWrapper}>
+    <ParentsWrapper>
       {parents?.map((p) => (
         <span>
-          <span className={styles.parents}>{p}</span>
+          <ParentsColor>{p}</ParentsColor>
           {punct('.')}
         </span>
       ))}
-    </span>
+    </ParentsWrapper>
   );
 };
 
-const Name = (name) => <span className={styles.name}>{name}</span>;
+const Name = (name) => <NameColor>{name}</NameColor>;
 
 const Parameter = (showType) => (p) => (
-  <span className={styles.parameter} key={`_param_${p.name}`}>
+  <span key={`_param_${p.name}`}>
     {p.isRest ? punct('...') : null}
-    <span className={styles.parameterName}>{p.name}</span>
+    <ParamNameColor>{p.name}</ParamNameColor>
     {p.isOptional ? punct('?') : null}
     {showType ? punct(':') : null}
-    {showType ? <span className={styles.parameterType}> {p.type} </span> : null}
+    {showType ? <ParamTypeColor> {p.type} </ParamTypeColor> : null}
   </span>
 );
 
 const Parameters = (showType) => (parameters) => (
-  <span className={styles.parameters}>
+  <span>
     {punct('(')}
     {unsafeJoinComponents(parameters?.map(Parameter(showType)), commaSeparator)}
     {punct(')')}
@@ -52,15 +86,13 @@ const Return = (show) => (returnType) => {
   return (
     <span>
       {punct(' => ')}
-      <span className={styles.returnType}>{returnType}</span>
+      <ReturnTypeColor>{returnType}</ReturnTypeColor>
     </span>
   );
 };
 
 const Overloads = (otherOverloads) =>
-  otherOverloads?.length ? (
-    <span className={styles.overloads}> +{otherOverloads.length}</span>
-  ) : null;
+  otherOverloads?.length ? <OverloadColor> +{otherOverloads.length}</OverloadColor> : null;
 
 const transform = (transformers, parts) => parts.map((part, i) => transformers[i](part));
 
