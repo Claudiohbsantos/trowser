@@ -4,7 +4,6 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
-const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
@@ -42,15 +41,6 @@ module.exports = {
           },
         },
       },
-      {
-        test: /\.s?css$/,
-        use: [
-          isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
-          'css-loader',
-          'postcss-loader',
-          'sass-loader',
-        ],
-      },
     ],
   },
   resolve: {
@@ -61,7 +51,6 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Trowser',
     }),
-    isProduction && new MiniCssExtractPlugin(),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isAnalysis && new BundleAnalyzerPlugin(),
   ].filter(Boolean),
