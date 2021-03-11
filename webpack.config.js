@@ -4,13 +4,19 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
+const isProduction = process.env.NODE_ENV === 'production';
 const isDevelopment = process.env.NODE_ENV === 'development';
 const isAnalysis = process.env.NODE_ENV === 'analyze';
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
   entry: path.resolve(__dirname, 'src', 'client', 'index.js'),
+  devtool: isDevelopment ? 'eval-cheap-source-map' : undefined,
+  cache: {
+    type: 'filesystem',
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: '[name].bundle.js',
@@ -27,7 +33,7 @@ module.exports = {
     rules: [
       {
         test: /\.[jt]sx?$/,
-        exclude: /node_modules/,
+        include: path.resolve(__dirname, 'src'),
         use: {
           loader: 'babel-loader',
           options: {
@@ -38,7 +44,12 @@ module.exports = {
       },
       {
         test: /\.s?css$/,
-        use: ['style-loader', 'css-loader', 'postcss-loader', 'sass-loader'],
+        use: [
+          isProduction ? MiniCssExtractPlugin.loader : 'style-loader',
+          'css-loader',
+          'postcss-loader',
+          'sass-loader',
+        ],
       },
     ],
   },
@@ -50,6 +61,7 @@ module.exports = {
     new HtmlWebpackPlugin({
       title: 'Trowser',
     }),
+    isProduction && new MiniCssExtractPlugin(),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isAnalysis && new BundleAnalyzerPlugin(),
   ].filter(Boolean),
