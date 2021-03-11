@@ -3,8 +3,10 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
-const isDevelopment = process.env.NODE_ENV !== 'production';
+const isDevelopment = process.env.NODE_ENV === 'development';
+const isAnalysis = process.env.NODE_ENV === 'analyze';
 
 module.exports = {
   mode: isDevelopment ? 'development' : 'production',
@@ -41,7 +43,7 @@ module.exports = {
     ],
   },
   resolve: {
-    extensions: ['.js', '.jsx','.json']
+    extensions: ['.js', '.jsx', '.json'],
   },
   plugins: [
     new CleanWebpackPlugin(),
@@ -49,5 +51,6 @@ module.exports = {
       title: 'Trowser',
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
+    isAnalysis && new BundleAnalyzerPlugin(),
   ].filter(Boolean),
 };

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "http-server dist -p 8282 -o",
     "build": "cross-env NODE_ENV=production webpack",
-    "dev": "cross-env NODE_ENV=development webpack serve"
+    "dev": "cross-env NODE_ENV=development webpack serve",
+    "analyze-bundle": "cross-env NODE_ENV=analyze webpack serve"
   },
   "keywords": [],
   "author": "",
@@ -37,6 +38,7 @@
     "sass": "^1.32.8",
     "sass-loader": "^11.0.1",
     "style-loader": "^2.0.0",
+    "webpack-bundle-analyzer": "^4.4.0",
     "webpack-cli": "^4.5.0",
     "webpack-dev-server": "^3.11.2"
   },
