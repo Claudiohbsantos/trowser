@@ -97,7 +97,7 @@ export default class App extends Component {
     return (
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <AppContainer>
+        <AppContainer id="app-container">
           <Title>Trowser</Title>
           <PackageDisplay
             name={this.state.packageName}
