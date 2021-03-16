@@ -1,10 +1,12 @@
-# Trowser
+# [Trowser](https://trowser.onrender.com/)
 
 NPM Package dynamic method browser
 
 Trowser automatically searched for typescript declaration files for a npm package and displays a searcheable list of methods. Utilize Fuzzy searching to quickly search for methods by name, parameter name, parameter type, return type,etc.
 
 ![Ramda Example](/readmeAssets/ramdaExample.png)
+
+![Details](readmeAssets/Details.png)
 
 ## Search Filters
 
