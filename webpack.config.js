@@ -1,6 +1,7 @@
 const path = require('path');
 
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const HtmlWebpackPartialsPlugin = require('html-webpack-partials-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
@@ -53,6 +54,11 @@ module.exports = {
     new CleanWebpackPlugin(),
     new HtmlWebpackPlugin({
       title: 'Trowser',
+    }),
+    isProduction && new HtmlWebpackPartialsPlugin({
+      path: path.resolve(__dirname, 'src', 'client', 'htmlpartials', 'analytics.html'),
+      location: 'head',
+      priority: 'high',
     }),
     isDevelopment && new ReactRefreshWebpackPlugin(),
     isAnalysis && new BundleAnalyzerPlugin(),
